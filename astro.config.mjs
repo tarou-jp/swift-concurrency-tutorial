@@ -17,6 +17,10 @@ export default defineConfig({
 		starlight({
 			title: 'Swift Concurrencyチュートリアル',
 			description: 'Swift Concurrencyを思想から学ぶ',
+			components: {
+				Head: './src/components/Head.astro',
+				PageFrame: './src/components/PageFrame.astro',
+			},
 			sidebar: [
 				{
 					label: 'はじめに',

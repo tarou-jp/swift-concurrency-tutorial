@@ -1,0 +1,28 @@
+---
+import Default from '@astrojs/starlight/components/Head.astro';
+import { ClientRouter } from 'astro:transitions';
+---
+
+<Default />
+<ClientRouter />
+
+<script>
+	function normalize(pathname: string) {
+		if (pathname.length > 1 && pathname.endsWith('/')) return pathname.slice(0, -1);
+		return pathname;
+	}
+
+	function syncSidebar() {
+		const pane = document.getElementById('starlight__sidebar');
+		if (!pane) return;
+		if (pane.matches(':popover-open')) pane.hidePopover();
+
+		const path = normalize(location.pathname);
+		pane.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((link) => {
+			if (normalize(link.pathname) === path) link.setAttribute('aria-current', 'page');
+			else link.removeAttribute('aria-current');
+		});
+	}
+
+	document.addEventListener('astro:page-load', syncSidebar);
+</script>
