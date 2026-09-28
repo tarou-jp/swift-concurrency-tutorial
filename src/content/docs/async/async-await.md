@@ -15,7 +15,7 @@ sidebar:
 func loadText(from url: URL) async throws -> String
 ```
 
-前ページで作った三つの非同期関数を、d
+前ページで作った三つの非同期関数を、全てSwift Concurrencyで再実装します。
 
 ```swift
 enum WordCountError: Error {
@@ -96,4 +96,4 @@ guard let inputURL = inputURL else {
 }
 ```
 
-結果として、全ページの実装がかかえていた問題は全て解決され、さらに、処理内容は全く同じ`createWordCountReport`のコード行数は25行から9行へと減りました。
+結果として、全ページの実装が抱えていた問題は全て解決され、さらに、処理内容は全く同じですが、コード行数は25行から9行へと減りました。

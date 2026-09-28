@@ -7,9 +7,13 @@ sidebar:
 
 **isolation domain**は可変状態を隔離することで、データ競合を防ぎます。しかし、アプリケーションを作る上では、**isolation domain**を超えて値の受け渡しが必要となる場面が発生します。
 
-たとえば、以下のようなサンプルコードを考えてみましょう。
-在庫数を管理するために、Stockという構造体を定義します。そして、viewが持つ状態を管理する`inventoryViewModel`がこの構造体のインスタンスを持ちます。そして、viewModelの持つ状態により、viewが更新されるため、viewModelには、`@MainActor`を付与します。これは、swiftではUIに関する処理は全てメインスレッド上で行う必要があるためです。
-画面を表示するInventoryViewでは、現在の在庫数と、販売するボタンが置かれています。
+たとえば、在庫の画面を考えてみます。
+
+在庫数は、`Stock` という構造体で表します。
+
+view の状態は `InventoryViewModel` が管理し、`Stock` のインスタンスを持ちます。view はこの状態を見て更新されるので、viewModel には `@MainActor` を付けます。Swift では、UI に関する処理をすべてメインスレッド上で行う必要があるからです。
+
+画面の `InventoryView` には、現在の在庫数と、販売するボタンを置きます。
 
 ```swift
 struct Stock {
@@ -112,6 +116,8 @@ Swift Concurrencyでは、`Sendable`というプロトコルを通じてこの�
 `Sendable` に準拠した値だけが、この境界を越えられます。
 そして、先ほどのサンプルコードでは、渡されたのはStockでした。そしてこのStockは`Sendable`に準拠していたため、**isolation boundary**を超えることができていました。
 
+![MainActor と StockRepository actor のあいだの isolation boundary。Sendable な Stock は境界を越えて共有できる。non-Sendable はそのままでは両方で共有できない。](./isolation-boundary.jpg)
+
 ではここからは、このサンプルコードを少し修正して、どのような値であれば`Sendable`に準拠ができて、どのような値であれば`Sendable`に準拠できないのかを理解します。
 
 
@@ -147,7 +153,9 @@ class InventoryViewModel {
 ```
 
 上記のコードでは、在庫を表現していたStockが構造体ではなく、class型になりました。
+
 このコードは有効でしょうか。
+
 答えとして、このコードは成り立ちません。なぜなら**isolation boundary**を超えている、Stockは`Sendable`に準拠することができないからです。
 
 ではなぜ、Stockは`Sendable`に準拠できないのでしょうか。
@@ -235,6 +243,7 @@ func example(_ repository: StockRepository) async {
 ```
 
 このコードは有効です。
+
 Stock は class なので、Repositoryは先ほどと同様にインスタンスへの参照を`MainActor`に渡すことになります。
 しかし、Stockの持つcountがvarではなくletとなり、一度作成してから変更できなくなりました。
 repositoryはsell関数を持っていますが、その内部では新しいStockのインスタンスを作り、cachedStockを差し替えているため、`MainActor`に共有されたインスタンスに対して変化はありません

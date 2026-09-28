@@ -8,9 +8,7 @@ sidebar:
 Swift Concurrencyではアクターモデルをさらに拡張して、状態とその状態を扱うプログラムを隔離する**isolation domain(隔離領域)**を定義しています。
 ある**isolation domain**に属する可変状態は、同じ隔離領域にいるコードからのみ同期的にアクセスされます。
 
-別の**isolation domain**にいるプログラムは、その状態を自由に読み書きできません。**isolation domain**の境界(**isolation boundary**と一般的に呼ばれる)を越える呼び出しには、`await`による同期が必要です。
-
-後日イラスト埋め込み
+別の**isolation domain**にいるプログラムは、その状態を自由に読み書きできません。**isolation domain**の境界(**isolation boundary**と一般的に呼ばれる)を越えてデータをやり取りする場合は、`await`を使います。この越え方は、[isolation domainを超えたデータのやり取り](/isolation/boundary/)で扱います。
 
 全ての状態や関数は以下の三種類の**isolation domain**のいずれかに属します。
 

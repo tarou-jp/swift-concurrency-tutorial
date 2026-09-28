@@ -33,7 +33,72 @@ class Chicken {
 }
 ```
 
-これらの**non-isolated**な状態や関数は自由に他の**isolation domain**の状態や関数にアクセスすることはできません。
-一方で、他の**isolation domain**からは自由にアクセスされます。
+`sailTheSea()` は、どの **isolation domain** にも属していません。そのため、actor の中からでも `await` なしで呼べます。
 
-また、actor や global actor に隔離された型の中でも、メソッドに `nonisolated` を付けると、そのメソッドは non-isolated になります。その書き方は、actor のページで見ます。
+```swift
+actor Ship {
+    func go() {
+        sailTheSea()
+    }
+}
+```
+
+逆に、`sailTheSea()` の中から actor の状態へは触れません。`course` は `Ship` の **isolation domain** に隔離されているからです。
+
+```swift
+actor Ship {
+    var course = "北"
+}
+
+func sailTheSea(ship: Ship) {
+    ship.course = "南" // コンパイルエラー
+}
+```
+
+境界を越えて状態を読み書きする場合には、`await` を使います。
+
+```swift
+extension Ship {
+    func go() {
+        course = "南"
+    }
+}
+
+func sailTheSea(ship: Ship) async {
+    await ship.go()
+}
+```
+
+`Chicken` も non-isolated です。`currentHunger` を持っていて、それが `var` であり可変状態を持っていますが、このクラスの定義はコンパイルできます。
+
+actor が二つあります。どちらも、`Chicken` を受け取る関数を持っています。この二つの定義も、コンパイルできます。
+
+```swift
+actor Barn {
+    func look(at chicken: Chicken) {
+        print(chicken.currentHunger)
+    }
+}
+
+actor Coop {
+    func feed(_ chicken: Chicken) {
+        chicken.currentHunger = .full
+    }
+}
+```
+
+`Barn.look` は `currentHunger` を読みます。`Coop.feed` は `.full` に書き換えます。
+
+しかし、次のように同時にnon-isolatedな可変状態を読み書きしようとした時にはどうなるでしょう。
+
+```swift
+func morning(barn: Barn, coop: Coop) async {
+    let chicken = Chicken(name: "まる", currentHunger: .hungry)
+    await barn.look(at: chicken) // コンパイルエラー
+    await coop.feed(chicken)
+}
+```
+
+`morning` は non-isolated です。`await` で順番に書いてあっても、`Barn` と `Coop` は別々の **isolation domain** なので、同じ `currentHunger` を同時に触れることがあります。swiftはコンパイラによりこのデータ競合のリスクを検知してコンパイルエラーにします。
+
+actor や global actor に隔離された型の中でも、メソッドに `nonisolated` を付けると、そのメソッドは non-isolated になります。その書き方は、actor のページで見ます。

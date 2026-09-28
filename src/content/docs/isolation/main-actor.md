@@ -65,5 +65,3 @@ func register(_ game: Videogame) async {
     await addGame(game)
 }
 ```
-
-後日イラスト埋め込み

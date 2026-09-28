@@ -7,5 +7,5 @@ sidebar:
 
 Swift Concurrencyを学ぶとは、何を指すのでしょうか。
 
-`async/await` の文法を覚えることでしょうか。`Sendable` やactorの使い方を知ることでしょうか。どちらも必要です、しかし、それだけでは始めてみるコードでスラスラとSwift Concurrencyを使いこなすことができるでしょうか。
-このチュートリアルでは、Swift Concurrencyの思想を学ぶことで、直感的にSwift Concurrencyをこなせるようになることを目指します。
+`async/await` の文法を理解することでしょうか。`Sendable` やactorの使い方を知ることでしょうか。どちらも必要です、しかし、それだけでSwift Concurrencyを使いこなすことができるでしょうか。
+このチュートリアルでは、Swift Concurrencyの思想を学ぶことで、直感的にSwift Concurrencyを使いこなせるようになることを目指します。
