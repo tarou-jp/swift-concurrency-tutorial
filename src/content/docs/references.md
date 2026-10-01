@@ -12,5 +12,8 @@ description: 原稿に挙げた一次資料
 - [Swift公式ドキュメント：Concurrency](https://docs.swift.org/latest/documentation/the-swift-programming-language/concurrency/)
 - [Swift公式ドキュメント：Structures and Classes](https://docs.swift.org/swift-book/LanguageGuide/ClassesAndStructures.html)
 - [Swift 6移行ガイド：Data Race Safety](https://www.swift.org/migration/documentation/swift-6-concurrency-migration-guide/dataracesafety/)
+- [Swift 6移行ガイド：Enable Data-Race Safety](https://www.swift.org/migration/documentation/swift-6-concurrency-migration-guide/enabledataracesafety/)
+- [Swift公式ドキュメント：Compatibility](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/compatibility/)
+- Apple, [Adopting Swift 6](https://developer.apple.com/documentation/swift/adoptingswift6)
 - Yuta Koshizawa, [Heart of Swift Concurrency](https://speakerdeck.com/koher/heart-of-swift-concurrency?slide=24)
 - Swift Zoomin', [感覚的に理解するConcurrency: Swift 6はIsolationとSendableを用いてどのようにデータ競合を防止するか](https://www.youtube.com/watch?v=AUcn2y2jjNs&t=1042s)

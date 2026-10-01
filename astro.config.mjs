@@ -51,6 +51,14 @@ export default defineConfig({
 					],
 				},
 				{
+					label: '第3部：実行環境とコンパイル設定',
+					items: [{ autogenerate: { directory: 'environment' } }],
+				},
+				{
+					label: '第4部：クイズ',
+					items: [{ label: 'クイズ', slug: 'quiz' }],
+				},
+				{
 					label: '参考',
 					items: [{ label: '参考資料', slug: 'references' }],
 				},
